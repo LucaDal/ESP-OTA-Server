@@ -53,7 +53,7 @@ def deleteItem(token,path):
 def uploader_file():
    if request.method == 'POST':
         if request.form.get('button') == 'Delete':
-            deleteItem(request.form.get('token'),'firmware\\'+request.form.get('token'))
+            deleteItem(request.form.get('token'),os.path.join(sys.path[0],"firmware",request.form.get('token')))
         else:
             today = date.today()
             file = request.files['file']
@@ -73,9 +73,9 @@ def uploader_file():
                         }
                     }
                 API_TOKEN_LIST.update(newJson)
-            filePath = os.path.join(sys.path[0],"firmware",request.form.get('token'),file.filename)
-            if os.path.exists(filePath):
-                os.remove(filePath)
+            pathFile = 'firmware\\'+request.form.get('token')+'\\'+file.filename
+            if os.path.exists(pathFile):
+                os.remove(pathFile)
             os.chdir(os.path.join(sys.path[0],"firmware",request.form.get('token')))
             file.save(file.filename)
         f = open(os.path.join(sys.path[0], "device.json"),"w")
