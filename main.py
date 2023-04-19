@@ -40,7 +40,7 @@ def api_version(api_key):
         return version(api_key)
 
 
-@app.route('/upload')
+@app.route('/')
 def upload_file():
    return render_template('upload.html', devices=API_TOKEN_LIST)
 
@@ -49,7 +49,7 @@ def deleteItem(token,path):
     API_TOKEN_LIST.pop(token)
     shutil.rmtree(path)
 
-@app.route('/', methods = ['GET', 'POST'])
+@app.route('/uploader', methods = ['GET', 'POST'])
 def uploader_file():
    if request.method == 'POST':
         if request.form.get('button') == 'Delete':
