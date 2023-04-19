@@ -49,7 +49,7 @@ def deleteItem(token,path):
     API_TOKEN_LIST.pop(token)
     shutil.rmtree(path)
 
-@app.route('/uploader', methods = ['GET', 'POST'])
+@app.route('/', methods = ['GET', 'POST'])
 def uploader_file():
    if request.method == 'POST':
         if request.form.get('button') == 'Delete':
@@ -81,11 +81,6 @@ def uploader_file():
         json.dump(API_TOKEN_LIST,f,indent=4)
         f.close
         return 'Done!'
-
-
-@app.route('/')
-def hello_word():
-    return "<p>Hello World!</p>"
 
 
 @app.route('/favicon.ico')
