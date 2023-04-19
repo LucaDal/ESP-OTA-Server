@@ -81,7 +81,7 @@ def uploader_file():
         f = open(os.path.join(sys.path[0], "device.json"),"w")
         json.dump(API_TOKEN_LIST,f,indent=4)
         f.close
-        return 'Done!'
+        return render_template('upload.html', devices=API_TOKEN_LIST)
 
 
 @app.route('/favicon.ico')
