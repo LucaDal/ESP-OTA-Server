@@ -1,0 +1,9 @@
+.divBox{
+  background-color: #EEE; 
+  margin: 20px;
+  text-align:center;
+}
+
+.hiddenToken{
+  display:none; 
+}
