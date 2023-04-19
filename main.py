@@ -73,9 +73,9 @@ def uploader_file():
                         }
                     }
                 API_TOKEN_LIST.update(newJson)
-            pathFile = 'firmware\\'+request.form.get('token')+'\\'+file.filename
-            if os.path.exists(pathFile):
-                os.remove(pathFile)
+            filePath = os.path.join(sys.path[0],"firmware",request.form.get('token'),file.filename)
+            if os.path.exists(filePath):
+                os.remove(filePath)
             os.chdir(os.path.join(sys.path[0],"firmware",request.form.get('token')))
             file.save(file.filename)
         f = open(os.path.join(sys.path[0], "device.json"),"w")
