@@ -38,6 +38,8 @@ def version(api_key):
 def api_version(api_key):
     if api_key in API_TOKEN_LIST:
         return version(api_key)
+    else:
+        return ""
 
 
 @app.route('/')
