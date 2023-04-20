@@ -83,7 +83,7 @@ def uploader_file():
         f = open(os.path.join(sys.path[0], "device.json"),"w")
         json.dump(API_TOKEN_LIST,f,indent=4)
         f.close
-        return render_template('upload.html', devices=API_TOKEN_LIST)
+        return redirect("http://http://192.168.1.250:50001/", code=200)
 
 
 @app.route('/favicon.ico')
@@ -92,4 +92,6 @@ def favicon():
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.1.250', port=50001, debug=True)
+    from waitress import serve
+    serve(app,host='192.168.1.250', port=50001)
+    #app.run(host='192.168.1.250', port=50001, debug=True)
