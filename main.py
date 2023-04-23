@@ -92,6 +92,6 @@ def favicon():
 
 
 if __name__ == '__main__':
-    from waitress import serve
-    serve(app,host='192.168.1.250', port=50001)
-    #app.run(host='192.168.1.250', port=50001, debug=True)
+    #from waitress import serve
+    #serve(app,host='192.168.1.250', port=50001)
+    app.run(host='192.168.1.250', port=50001, debug=True)
