@@ -4,7 +4,7 @@ import sys
 import json
 import shutil
 from datetime import date
-from flask import Flask, send_file, request, jsonify,render_template,redirect
+from flask import Flask, send_file, jsonify, request, render_template, redirect
 
 f = open(os.path.join(sys.path[0], "device.json"),"r")
 API_TOKEN_LIST = json.load(f)
