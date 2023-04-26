@@ -5,6 +5,8 @@ import json
 import shutil
 from datetime import date
 from flask import Flask, send_file, jsonify, request, render_template, redirect
+from time import sleep
+from waitress import serve
 
 f = open(os.path.join(sys.path[0], "device.json"),"r")
 API_TOKEN_LIST = json.load(f)
@@ -92,6 +94,10 @@ def favicon():
 
 
 if __name__ == '__main__':
-    from waitress import serve
-    serve(app,host='192.168.1.250', port=50001)
+    while(1):
+        try:
+            serve(app,host='192.168.1.250', port=50001)
+        except:
+            print("Internet Missing")
+            sleep(10)
     #app.run(host='192.168.1.250', port=50001, debug=True)
