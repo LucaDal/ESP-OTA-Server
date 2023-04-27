@@ -1,8 +1,8 @@
 from subprocess import run
 from time import sleep
-
+import os
 # Path and name to the script you are trying to start
-file_path = "main.py" 
+file_name = "main.py" 
 print('Server started')
 restart_timer = 60
 def start_script():
