@@ -8,11 +8,11 @@ def start_script():
     try:
         print('Starting the server')
         Popen("python3 main.py", shell=True)
-        sleep(10) #time to start server
+        sleep(20) #time to start server
         while 1:
             if not check_connection():
                 handle_crash()
-            sleep(10) #every ten seconds it check if the site is working
+            sleep(900) #every 15 minutes it check if the site is working
     except Exception as e:
         # Script crashed, lets restart it!
         print(e)
