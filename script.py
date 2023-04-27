@@ -10,7 +10,7 @@ def start_script():
     try:
         # Make sure 'python' command is available
         print('Starting server')
-        run("python3 "+file_path, check=True) 
+        run("ciao", check=True) 
     except Exception as e:
         # Script crashed, lets restart it!
         print(e)
