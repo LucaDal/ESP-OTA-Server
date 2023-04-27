@@ -5,7 +5,7 @@ import json
 import shutil
 from datetime import date
 import click
-from flask import Flask, send_file, jsonify, request, render_template, redirect, url_for
+from flask import Flask, send_file, jsonify, request, render_template, redirect
 #from waitress import serve
 f = open(os.path.join(sys.path[0], "device.json"),"r")
 API_TOKEN_LIST = json.load(f)
@@ -94,7 +94,7 @@ def uploader_file():
         f = open(os.path.join(sys.path[0], "device.json"),"w")
         json.dump(API_TOKEN_LIST,f,indent=4)
         f.close
-        return redirect(url_for("/"), code=200)
+        return redirect("http://192.168.1.250:50001/")
 
 
 @app.route('/favicon.ico')
