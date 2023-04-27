@@ -2,15 +2,12 @@ from subprocess import run
 from time import sleep
 import os
 # Path and name to the script you are trying to start
-file_name = "main.py" 
-file_path = os.getcwd()+"/"+file_name
-
 restart_timer = 60
 def start_script():
     try:
         # Make sure 'python' command is available
         print('Starting server')
-        run("ciao", check=True) 
+        run("python main.py", check=True) 
     except Exception as e:
         # Script crashed, lets restart it!
         print(e)
