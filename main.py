@@ -4,9 +4,9 @@ import sys
 import json
 import shutil
 from datetime import date
+import click
 from flask import Flask, send_file, jsonify, request, render_template, redirect
 #from waitress import serve
-import click
 f = open(os.path.join(sys.path[0], "device.json"),"r")
 API_TOKEN_LIST = json.load(f)
 f.close()

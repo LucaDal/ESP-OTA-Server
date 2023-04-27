@@ -7,14 +7,15 @@ restart_timer = 60 #15 seconds
 def start_script():
     try:
         print('Starting the server')
-        Popen("python3 main.py", check=True ,shell=True)
+        Popen("python3 main.py", shell=True)
         sleep(10) #time to start server
         while 1:
             if not check_connection():
                 handle_crash()
             sleep(10) #every ten seconds it check if the site is working
-    except Exception:
+    except Exception as e:
         # Script crashed, lets restart it!
+        print(e)
         handle_crash()
 
 
