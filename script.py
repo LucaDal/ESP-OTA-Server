@@ -9,8 +9,9 @@ def start_script():
     try:
         # Make sure 'python' command is available
         run("python "+file_path, check=True) 
-    except:
+    except Exception as e:
         # Script crashed, lets restart it!
+        print(e)
         handle_crash()
 
 def handle_crash():
@@ -19,5 +20,4 @@ def handle_crash():
     start_script()
 
 if __name__ == '__main__':
-    while True:
-        start_script()
+    start_script()
