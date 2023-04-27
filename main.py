@@ -16,8 +16,8 @@ app.config['MAX_CONTENT_PATH'] = 502000
 
 @app.route('/api/post/update/<api_key>', methods=['GET','POST'])
 def api_update_prova(api_key):
-    print("{}: {} -> {}".format(api_key,request.headers['X-Esp8266-Version'],API_TOKEN_LIST[api_key]['version']))
     if api_key in API_TOKEN_LIST:
+        print("{}: {} -> {}".format(api_key,request.headers['X-Esp8266-Version'],API_TOKEN_LIST[api_key]['version']))
         try:
             return send_file(os.path.join(sys.path[0],"firmware",api_key,API_TOKEN_LIST[api_key]['fileName']))
         except Exception as e:
