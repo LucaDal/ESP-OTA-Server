@@ -3,12 +3,14 @@ from time import sleep
 import os
 # Path and name to the script you are trying to start
 file_name = "main.py" 
-print('Server started')
+file_path = os.getcwd()+"\\"+file_name
+
 restart_timer = 60
 def start_script():
     try:
         # Make sure 'python' command is available
-        run("python3 "+file_path, check=True) 
+        print('Starting server')
+        run("python "+file_path, check=True) 
     except Exception as e:
         # Script crashed, lets restart it!
         print(e)
