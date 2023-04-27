@@ -1,21 +1,14 @@
-from subprocess import Popen
+from subprocess import run
 from time import sleep
-from _thread import *
 import socket
 import os, signal
-# Path and name to the script you are trying to start
-restart_timer = 60
+
+restart_timer = 900 #15 seconds
 def start_script():
-    print('Starting server')
-    PID = Popen("python3 main.py", shell=True) 
+    
     try:
-        while 1:
-            if not check_connection():
-                print("no connection")
-                os.kill(PID,signal.SIGINT)
-                break
-            sleep(1800)
-        raise
+        print('Starting server')
+        run("python3 main.py", check=True ,shell=True)
     except Exception:
         # Script crashed, lets restart it!
         handle_crash()
