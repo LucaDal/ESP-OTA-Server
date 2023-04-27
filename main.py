@@ -93,8 +93,5 @@ def favicon():
 
 
 if __name__ == '__main__':
-    try:
-        serve(app,host='192.168.1.250', port=50001)
-    except OSError:
-        raise OSError
+    serve(app,host='192.168.1.250', port=50001)
     #app.run(host='192.168.1.250', port=50001, debug=True)
