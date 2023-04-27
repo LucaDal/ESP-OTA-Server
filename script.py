@@ -1,44 +1,44 @@
-from subprocess import run
+from subprocess import Popen
 from time import sleep
 from _thread import *
-from  urllib import request
-import serial 
-def connect(host='http://google.com'):
-    try:
-        urllib.request.urlopen(host) #Python 3.x
-        return True
-    except:
-        return False
-import os
+import socket
+import os, signal
 # Path and name to the script you are trying to start
 restart_timer = 60
 def start_script():
+    print('Starting server')
+    PID = Popen("python main.py", shell=True) 
     try:
-        # Make sure 'python' command is available
-        print('Starting server')
-        start_new_thread(check_connection,())
-        start_new_thread(runServer,())
-    except Exception as e:
+        while 1:
+            if not check_connection():
+                print("no connection")
+                os.kill(PID,signal.SIGINT)
+                break
+            sleep(5)
+        raise
+    except Exception:
         # Script crashed, lets restart it!
-        print(e)
         handle_crash()
+
+
+def check_connection(host="8.8.8.8", port=53, timeout=3):
+    """
+    Host: 8.8.8.8 (google-public-dns-a.google.com)
+    OpenPort: 53/tcp
+    Service: domain (DNS/TCP)
+    """
+    try:
+        socket.setdefaulttimeout(timeout)
+        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+        return True
+    except socket.error:
+        return False
+
 
 def handle_crash():
     print('Restarting in 60 seconds')
     sleep(restart_timer)  # Restarts the script after 60 seconds
     start_script()
-
-def runServer():
-    run("python3 main.py", check=True, shell=True) 
-
-def check_connection():
-    while 1:
-        try:
-            request.urlopen('http://google.com') #Python 3.x
-            sleep(5)
-        except request.URLError as err:
-            serial.write('\x03')
-            raise err
 
 
 if __name__ == '__main__':
