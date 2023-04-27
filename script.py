@@ -14,7 +14,7 @@ def start_script():
                 print("no connection")
                 os.kill(PID,signal.SIGINT)
                 break
-            sleep(5)
+            sleep(1800)
         raise
     except Exception:
         # Script crashed, lets restart it!
