@@ -5,13 +5,23 @@ import json
 import shutil
 from datetime import date
 from flask import Flask, send_file, jsonify, request, render_template, redirect
-from waitress import serve
-
+#from waitress import serve
+import click
 f = open(os.path.join(sys.path[0], "device.json"),"r")
 API_TOKEN_LIST = json.load(f)
 f.close()
 app = Flask(__name__,template_folder='template')
 app.config['MAX_CONTENT_PATH'] = 502000
+
+def secho(text, file=None, nl=None, err=None, color=None, **styles):
+    pass
+
+def echo(text, file=None, nl=None, err=None, color=None, **styles):
+    pass
+
+click.echo = echo
+click.secho = secho
+
 # ================================================
 
 @app.route('/api/post/update/<api_key>', methods=['GET','POST'])
@@ -93,5 +103,5 @@ def favicon():
 
 
 if __name__ == '__main__':
-    serve(app,host='192.168.1.250', port=50001)
-    #app.run(host='192.168.1.250', port=50001, debug=False)
+    #serve(app,host='192.168.1.250', port=50001)
+    app.run(host='192.168.1.250', port=50001, debug=False)

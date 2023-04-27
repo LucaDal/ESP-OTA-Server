@@ -1,31 +1,31 @@
-from subprocess import run
+from subprocess import Popen
 from time import sleep
 import socket
 import os, signal
 
-restart_timer = 900 #15 seconds
+restart_timer = 60 #15 seconds
 def start_script():
-    
     try:
-        print('Starting server')
-        run("python3 main.py", check=True ,shell=True)
+        print('Starting the server')
+        Popen("python3 main.py", check=True ,shell=True)
+        sleep(10) #time to start server
+        while 1:
+            if not check_connection():
+                handle_crash()
+            sleep(10) #every ten seconds it check if the site is working
     except Exception:
         # Script crashed, lets restart it!
         handle_crash()
 
 
-def check_connection(host="8.8.8.8", port=53, timeout=3):
-    """
-    Host: 8.8.8.8 (google-public-dns-a.google.com)
-    OpenPort: 53/tcp
-    Service: domain (DNS/TCP)
-    """
+def check_connection(host="192.168.1.250", port=50001, timeout=3):
     try:
         socket.setdefaulttimeout(timeout)
         socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
-        return True
     except socket.error:
         return False
+    socket.close()
+    return True
 
 
 def handle_crash():
