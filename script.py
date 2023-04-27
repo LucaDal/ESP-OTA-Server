@@ -8,7 +8,7 @@ restart_timer = 60
 def start_script():
     try:
         # Make sure 'python' command is available
-        run("python "+file_path, check=True) 
+        run("python3 "+file_path, check=True) 
     except:
         # Script crashed, lets restart it!
         handle_crash()
