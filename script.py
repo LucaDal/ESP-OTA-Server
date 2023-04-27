@@ -7,7 +7,7 @@ import os, signal
 restart_timer = 60
 def start_script():
     print('Starting server')
-    PID = Popen("python main.py", shell=True) 
+    PID = Popen("python3 main.py", shell=True) 
     try:
         while 1:
             if not check_connection():
