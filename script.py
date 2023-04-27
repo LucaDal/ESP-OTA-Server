@@ -25,7 +25,6 @@ def check_connection(host="192.168.1.250", port=50001, timeout=3):
         socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
     except socket.error:
         return False
-    socket.close()
     return True
 
 
