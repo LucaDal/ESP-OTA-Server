@@ -11,6 +11,7 @@ def start_script():
         sleep(20) #time to start server
         while 1:
             if not check_connection():
+                print("Connection failed")
                 handle_crash()
             sleep(900) #every 15 minutes it check if the site is working
     except Exception as e:
