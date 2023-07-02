@@ -10,7 +10,7 @@
       {% for device, value in devices.items() %}
         <div class="divBox">
          <br>
-         <form action = "http://192.168.1.250:50001/uploader" method = "POST" enctype = "multipart/form-data" >
+         <form action = "http://lucadalessandro.hopto.org/uploader" method = "POST" enctype = "multipart/form-data" >
             <h4>{{device}}</h4>
             <div class="hiddenToken">
                <input type="hidden" value={{device}} name = "token" readonly></i> <br>
@@ -25,7 +25,7 @@
       <h3 text-align="center"> Add new device </h3>
       <div class="divBox">
          <br>
-         <form action = "http://192.168.1.250:50001/uploader" method = "POST" enctype = "multipart/form-data" >
+         <form action = "http://lucadalessandro.hopto.org/uploader" method = "POST" enctype = "multipart/form-data" >
             <input type = "text" placeholder="Token" name = "token" required/> <br> <br>
             <input type = "text" placeholder="Version" name = "version" required/> <br> <br>
             <input type = "file" name = "file" required/> <br> <br>
