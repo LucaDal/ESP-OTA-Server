@@ -94,7 +94,7 @@ def uploader_file():
         f = open(os.path.join(sys.path[0], "device.json"),"w")
         json.dump(API_TOKEN_LIST,f,indent=4)
         f.close
-        return redirect("http://192.168.1.250:50001/")
+        return redirect("http://lucadalessandro.hopto.org:50001/")
 
 
 @app.route('/favicon.ico')
