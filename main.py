@@ -21,7 +21,7 @@ def echo(text, file=None, nl=None, err=None, color=None, **styles):
 
 click.echo = echo
 click.secho = secho
-
+ADDRESS_IP = 'lucadalessandro.hopto.org:50001'
 # ================================================
 
 @app.route('/api/post/update/<api_key>', methods=['GET','POST'])
@@ -55,7 +55,7 @@ def api_version(api_key):
 
 @app.route('/')
 def upload_file():
-   return render_template('upload.html', devices=API_TOKEN_LIST)
+   return render_template('upload.html', devices=API_TOKEN_LIST, ip = ADDRESS_IP)
 
 
 def deleteItem(token,path):
