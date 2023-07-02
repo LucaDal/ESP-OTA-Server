@@ -9,7 +9,6 @@
 
       {% for device, value in devices.items() %}
         <div class="divBox">
-         <br>
          <form action = "http://{{ip}}/uploader" method = "POST" enctype = "multipart/form-data" >
             <h4>{{device}}</h4>
             <div class="hiddenToken">

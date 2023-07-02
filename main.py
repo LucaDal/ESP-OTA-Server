@@ -22,6 +22,7 @@ def echo(text, file=None, nl=None, err=None, color=None, **styles):
 click.echo = echo
 click.secho = secho
 ADDRESS_IP = 'lucadalessandro.hopto.org:50001'
+
 # ================================================
 
 @app.route('/api/post/update/<api_key>', methods=['GET','POST'])
@@ -94,7 +95,7 @@ def uploader_file():
         f = open(os.path.join(sys.path[0], "device.json"),"w")
         json.dump(API_TOKEN_LIST,f,indent=4)
         f.close
-        return redirect("http://lucadalessandro.hopto.org:50001/")
+        return redirect("http://{}/".format(ADDRESS_IP))
 
 
 @app.route('/favicon.ico')
