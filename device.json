@@ -1,8 +1,8 @@
 {
-    "APY_TOKEN": {
+    "WATER_PLANT": {
         "companyName": "LucaLab",
-        "version": "0.5",
-        "buildDate": "10/04/2023",
-        "fileName": "Simple_OTA_Application.ino.bin"
+        "version": "1.0",
+        "buildDate": "21/09/2023",
+        "fileName": "prova_ota_sketck_con_print.ino.bin"
     }
 }
