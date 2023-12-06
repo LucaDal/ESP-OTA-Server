@@ -1,2 +1,7 @@
 /firmware
 device.json
+devices_update.log
+__pycache__/
+ota_serverenv
+ota_server.sock
+ota_server.log

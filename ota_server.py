@@ -4,7 +4,6 @@ import sys
 import json
 import shutil
 from datetime import date
-import click
 import logging
 from flask import Flask, send_file, jsonify, request, render_template, redirect
  
@@ -15,25 +14,19 @@ app.config['MAX_CONTENT_PATH'] = 502000
 logging.basicConfig(filename='devices_update.log', format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S')
 logger=logging.getLogger()
 
-def secho(text, file=None, nl=None, err=None, color=None, **styles):
-    pass
-
-def echo(text, file=None, nl=None, err=None, color=None, **styles):
-    pass
-
-click.echo = echo
-click.secho = secho
 ADDRESS_IP = 'https://lucadalessandro.tech'
-PATH = "/home/droidian/Projects/OTA-Server"
-
-f = open(os.path.join(PATH, "device.json"),"r")
-API_TOKEN_LIST = json.load(f)
-f.close() 
+PATH = "/home/luca/Projects/OTA-Server"
 
 # ================================================
 
+def read_json_file():
+    with open(os.path.join(PATH, "device.json"),"r") as f:
+        return json.load(f)
+
+
 @app.route('/ota/api/post/update/<api_key>', methods=['GET','POST'])
 def api_update_prova(api_key):
+    API_TOKEN_LIST = read_json_file()
     if api_key in API_TOKEN_LIST:
         try:
             logger.info("{}: {} -> {}".format(api_key,request.headers['X-Esp8266-Version'],API_TOKEN_LIST[api_key]['version']))
@@ -45,12 +38,12 @@ def api_update_prova(api_key):
                 return str(e)
     
 
-def version(api_key):
-    with open(os.path.join(PATH,"firmware",api_key,API_TOKEN_LIST[api_key]['fileName']), "rb") as file_to_check:
+def version(api_key, file_name, version):
+    with open(os.path.join(PATH,"firmware",api_key,file_name), "rb") as file_to_check:
         data = file_to_check.read()
         md5_returned = hashlib.md5(data).hexdigest()
     value = {
-        "version": API_TOKEN_LIST[api_key]['version'],
+        "version": version,
         "md5Checksum": md5_returned
     }
     return json.dumps(value)
@@ -58,29 +51,29 @@ def version(api_key):
 
 @app.route('/ota/api/get/version/<api_key>')
 def api_version(api_key):
+    API_TOKEN_LIST = read_json_file() 
     if api_key in API_TOKEN_LIST:
-        return version(api_key)
+        return version(api_key, API_TOKEN_LIST[api_key]['fileName'],API_TOKEN_LIST[api_key]['version'])
     else:
-        return ""
+        return "none"
 
 
-@app.route('/ota/')
+@app.route('/ota')
 def upload_file():
-    f = open(os.path.join(PATH, "device.json"),"r")
-    API_TOKEN_LIST = json.load(f)
-    f.close()
+    API_TOKEN_LIST = read_json_file() 
     return render_template('upload.html', devices=API_TOKEN_LIST, ip = ADDRESS_IP)
 
 
-def deleteItem(token,path):
-    API_TOKEN_LIST.pop(token)
-    shutil.rmtree(path)
-
 @app.route('/uploader', methods = ['GET', 'POST'])
 def uploader_file():
-   if request.method == 'POST':
+    API_TOKEN_LIST = read_json_file()
+    if request.method == 'POST':
         if request.form.get('button') == 'Delete':
-            deleteItem(request.form.get('token'),os.path.join(PATH,"firmware",request.form.get('token')))
+            API_TOKEN_LIST.pop(request.form.get('token'))
+            try:
+                shutil.rmtree(os.path.join(PATH,"firmware",request.form.get('token')))
+            except Exception as e:
+                logger.warning('Error consistency in firmware folder')
         else:
             today = date.today()
             file = request.files['file']
@@ -107,9 +100,8 @@ def uploader_file():
                 os.remove(pathFile)
             os.chdir(os.path.join(PATH,"firmware",request.form.get('token')))
             file.save(file.filename)
-        f = open(os.path.join(PATH, "device.json"),"w")
-        json.dump(API_TOKEN_LIST,f,indent=4)
-        f.close
+        with open(os.path.join(PATH, "device.json"),"w") as f:
+            json.dump(API_TOKEN_LIST,f,indent=4)
         return redirect("/ota")
     
 
