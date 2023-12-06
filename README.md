@@ -1,2 +1,2 @@
 # OTA-Server
-server to update esp8266 over the air
+server to update ESP board over the air
