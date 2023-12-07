@@ -28,14 +28,6 @@ to check regularly if an update is uploaded use:
 ```
 that check updates every tot seconds
 
-void setup() {
-  int EEPROMsize = 512;
-  //connect the board to internet first
-  //if you want an https connection use:
+## Server
 
-}
-void loop() {
-  //check update every 30 seconds
-  simpleOTA->checkUpdates(300); 
-  // put your main code here, to run repeatedly:
-}
+I needs to write that part...
