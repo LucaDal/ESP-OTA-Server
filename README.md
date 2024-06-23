@@ -9,7 +9,7 @@ In case you want an HTTPS connection call this function:
 ```
 begin(EEPROMsize,"youraddress","fingerprint","API_KEY");
 ```
-+ **EEPROMsize** of your board.
++ **EEPROMsize** of your board, where the current version is stored.
 + **youraddress** without the protocol ('https://') part
 + **fingerprint** of your hosted server, for example: "A2:2B:4E:GE:A8:0E:AH:10:7E:A1:BB:B9:01:BB:24:M9:E4:FC:45:AA"
 + **API_KEY** your own API_key
