@@ -1,0 +1,13 @@
+[Unit]
+Description=UWSGI instance to serve ota server
+After=network.target
+
+[Service]
+User=luca
+Group=www-data
+WorkingDirectory=/home/luca/Projects/OTA-Server/web-server
+Environment="PATH=/home/luca/Projects/OTA-Server/ota_serverenv/bin"
+ExecStart=/home/luca/Projects/OTA-Server/ota_serverenv/bin/uwsgi  --ini ota_server.ini
+
+[Install]
+WantedBy=multi-user.target
