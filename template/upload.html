@@ -18,7 +18,7 @@
 
       {% for device, value in devices.items() %}
         <div class="divBox">
-         <form action = "{{ip}}/uploader" method = "POST" enctype = "multipart/form-data" >
+         <form action = "{{ip}}/ota/uploader" method = "POST" enctype = "multipart/form-data" >
             <h4>{{device}}</h4>
             <div class="hiddenToken">
                <input type="hidden" value={{device}} name = "token" readonly></i> <br>
@@ -33,7 +33,7 @@
       <center><h3> Add new device </h3></center>
       <div class="divBox">
          <br>
-         <form action = "{{ip}}/uploader" method = "POST" enctype = "multipart/form-data" >
+         <form action = "{{ip}}/ota/uploader" method = "POST" enctype = "multipart/form-data" >
             <input type = "text" placeholder="Token" name = "token" required/> <br> <br>
             <input type = "text" placeholder="Version" name = "version" required/> <br> <br>
             <input type = "file" name = "file" required/> <br> <br>

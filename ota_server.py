@@ -5,16 +5,16 @@ import json
 import shutil
 from datetime import date
 import logging
-from flask import Flask, send_file, jsonify, request, render_template, redirect
+from flask import Flask, send_file, jsonify, request, render_template, redirect, make_response
  
 app = Flask(__name__,template_folder='template')
 app.config['MAX_CONTENT_PATH'] = 502000
 
 
-logging.basicConfig(filename='devices_update.log', format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S')
+logging.basicConfig(filename='devices_update.log', format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S', level=logging.DEBUG)
 logger=logging.getLogger()
 
-ADDRESS_IP = 'https://lucadalessandro.tech'
+ADDRESS_IP = 'https://lucadalessandro.freeddns.org'
 PATH = "/home/luca/Projects/OTA-Server"
 
 # ================================================
@@ -29,13 +29,24 @@ def api_update_prova(api_key):
     API_TOKEN_LIST = read_json_file()
     if api_key in API_TOKEN_LIST:
         try:
-            logger.info("{}: {} -> {}".format(api_key,request.headers['X-Esp8266-Version'],API_TOKEN_LIST[api_key]['version']))
+            if('x-ESP8266-version' in request.headers):
+                version = request.headers['x-ESP8266-version']
+                device = 'x-esp8266[{}]'.format(request.headers['x-ESP8266-STA-MAC'])  
+            if('x-ESP32-version' in request.headers):
+                device = request.headers['x-ESP32-STA-MAC']
+                version = 'x-esp32[{}]'.format(request.headers['x-ESP32-version'])
+            logger.info("client [{}] - TOKEN [{}] - [{} -> {}]".format(device,api_key,version,API_TOKEN_LIST[api_key]['version']))
         except Exception as e:
-            logger.warning('request {} from non X-Esp8266 device'.format(api_key))
+            logger.warning('request {} from non x-esp device - error: {}'.format(api_key, e))
         try:
-            return send_file(os.path.join(PATH,"firmware",api_key,API_TOKEN_LIST[api_key]['fileName']))
+            with open(os.path.join(PATH,"firmware",api_key,API_TOKEN_LIST[api_key]['fileName']), "rb") as file_to_check:
+                data = file_to_check.read()
+                md5_returned = hashlib.md5(data).hexdigest()
+            response = make_response(send_file(os.path.join(PATH,"firmware",api_key,API_TOKEN_LIST[api_key]['fileName'])))
+            response.headers['x-MD5'] = md5_returned
+            return response
         except Exception as e:
-                return str(e)
+            logger.warning("Error sending file to {}".format(api_key))
     
 
 def version(api_key, file_name, version):
@@ -64,7 +75,7 @@ def upload_file():
     return render_template('upload.html', devices=API_TOKEN_LIST, ip = ADDRESS_IP)
 
 
-@app.route('/uploader', methods = ['GET', 'POST'])
+@app.route('/ota/uploader', methods = ['GET', 'POST'])
 def uploader_file():
     API_TOKEN_LIST = read_json_file()
     if request.method == 'POST':
@@ -102,7 +113,10 @@ def uploader_file():
             file.save(file.filename)
         with open(os.path.join(PATH, "device.json"),"w") as f:
             json.dump(API_TOKEN_LIST,f,indent=4)
-        return redirect("/ota")
+        #if action start from /ota clicking on button save, otherwise no need to reload the page
+        if request.form.get('button') == 'Save': 
+            return redirect("/ota")
+        return jsonify(success=True)
     
 
 @app.route('/favicon.ico')
