@@ -1,0 +1,3 @@
+[submodule "MyESP_OTA"]
+	path = MyESP_OTA
+	url = https://github.com/LucaDal/MyESP_OTA.git
