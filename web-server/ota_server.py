@@ -15,7 +15,7 @@ logging.basicConfig(filename='devices_update.log', format='%(asctime)s: %(messag
 logger=logging.getLogger()
 
 ADDRESS_IP = 'https://lucadalessandro.freeddns.org'
-PATH = "/home/luca/Projects/OTA-Server"
+PATH = "/home/luca/Projects/OTA-Server/web-server"
 
 # ================================================
 
@@ -30,11 +30,11 @@ def api_update_prova(api_key):
     if api_key in API_TOKEN_LIST:
         try:
             if('x-ESP8266-version' in request.headers):
-                version = request.headers['x-ESP8266-version']
                 device = 'x-esp8266[{}]'.format(request.headers['x-ESP8266-STA-MAC'])  
+                version = request.headers['x-ESP8266-version']
             if('x-ESP32-version' in request.headers):
-                device = request.headers['x-ESP32-STA-MAC']
-                version = 'x-esp32[{}]'.format(request.headers['x-ESP32-version'])
+                device = 'x-esp32[{}]'.format(request.headers['x-ESP32-STA-MAC'])
+                version = request.headers['x-ESP32-version']
             logger.info("client [{}] - TOKEN [{}] - [{} -> {}]".format(device,api_key,version,API_TOKEN_LIST[api_key]['version']))
         except Exception as e:
             logger.warning('request {} from non x-esp device - error: {}'.format(api_key, e))
