@@ -5,17 +5,18 @@ import json
 import shutil
 from datetime import date
 import logging
+from dotenv import load_dotenv
 from flask import Flask, send_file, jsonify, request, render_template, redirect, make_response
  
+load_dotenv()
+
 app = Flask(__name__,template_folder='template')
 app.config['MAX_CONTENT_PATH'] = 502000
-
 
 logging.basicConfig(filename='devices_update.log', format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S', level=logging.DEBUG)
 logger=logging.getLogger()
 
-ADDRESS_IP = 'https://lucadalessandro.freeddns.org'
-PATH = "/home/luca/Projects/OTA-Server/web-server"
+PATH = os.getenv('PROJECT_PATH')
 
 # ================================================
 
@@ -72,7 +73,7 @@ def api_version(api_key):
 @app.route('/ota')
 def upload_file():
     API_TOKEN_LIST = read_json_file() 
-    return render_template('upload.html', devices=API_TOKEN_LIST, ip = ADDRESS_IP)
+    return render_template('upload.html', devices=API_TOKEN_LIST)
 
 
 @app.route('/ota/uploader', methods = ['GET', 'POST'])
@@ -113,16 +114,7 @@ def uploader_file():
             file.save(file.filename)
         with open(os.path.join(PATH, "device.json"),"w") as f:
             json.dump(API_TOKEN_LIST,f,indent=4)
-        #if action start from /ota clicking on button save, otherwise no need to reload the page
-        if request.form.get('button') == 'Save': 
-            return redirect("/ota")
-        return jsonify(success=True)
-    
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_file('./static/favicon.ico', mimetype='image/vnd.microsoft.icon')
-
+        return redirect("/ota")
 
 if __name__ == '__main__':
     app.run(host='192.168.1.250', port=50001, debug=False)
