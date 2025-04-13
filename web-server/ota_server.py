@@ -11,7 +11,7 @@ from flask import Flask, send_file, jsonify, request, render_template, redirect,
 load_dotenv()
 
 app = Flask(__name__,template_folder='template')
-app.config['MAX_CONTENT_PATH'] = 502000
+app.config['MAX_CONTENT_PATH'] = 1024 * 1024 * 2 # 2MB
 
 logging.basicConfig(filename='devices_update.log', format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S', level=logging.DEBUG)
 logger=logging.getLogger()
